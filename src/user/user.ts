@@ -1,11 +1,18 @@
-import { DataTypes, Model, Sequelize, Optional, BelongsToManyGetAssociationsMixin, BelongsToManyAddAssociationsMixin } from 'sequelize';
+import { 
+  DataTypes, 
+  Model, 
+  Sequelize, 
+  Optional, 
+  BelongsToManyGetAssociationsMixin, 
+  BelongsToManyAddAssociationsMixin,
+  BelongsToManySetAssociationsMixin
+} from 'sequelize';
 
 interface UserAttributes {
   id: number;
   name: string;
   universityId: number;
   email: string;
-  subjects: [];
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
@@ -15,10 +22,10 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
   public name!: string;
   public universityId!: number;
   public email!: string;
-  public subjects!: []
 
   declare getSubjects: BelongsToManyGetAssociationsMixin<User>;
   declare addSubjects: BelongsToManyAddAssociationsMixin<User, object>;
+  declare setSubjects: BelongsToManySetAssociationsMixin<User, object>;
 }
 
 export const UserModel = (sequelize: Sequelize) => {
@@ -40,10 +47,6 @@ export const UserModel = (sequelize: Sequelize) => {
       },
       universityId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      subjects: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
         allowNull: false,
       },
     },
