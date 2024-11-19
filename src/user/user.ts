@@ -1,11 +1,11 @@
-import { DataTypes, Model, Sequelize, Optional, HasOneSetAssociationMixin, HasOneGetAssociationMixin } from 'sequelize';
-import { University } from '../university/university';
+import { DataTypes, Model, Sequelize, Optional, BelongsToManyGetAssociationsMixin, BelongsToManyAddAssociationsMixin } from 'sequelize';
 
 interface UserAttributes {
   id: number;
   name: string;
   universityId: number;
   email: string;
+  subjects: [];
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
@@ -15,8 +15,10 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
   public name!: string;
   public universityId!: number;
   public email!: string;
-  declare setUniversity: HasOneSetAssociationMixin<University, number>;
-  declare getUniversity: HasOneGetAssociationMixin<University>;
+  public subjects!: []
+
+  declare getSubjects: BelongsToManyGetAssociationsMixin<User>;
+  declare addSubjects: BelongsToManyAddAssociationsMixin<User, object>;
 }
 
 export const UserModel = (sequelize: Sequelize) => {
@@ -38,6 +40,10 @@ export const UserModel = (sequelize: Sequelize) => {
       },
       universityId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      subjects: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
         allowNull: false,
       },
     },

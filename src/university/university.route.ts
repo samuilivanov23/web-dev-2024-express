@@ -1,3 +1,9 @@
+//1. subjects model and route
+//2. Link subjects to users (many users - many subjects)
+//3. post user method
+//4. Add PUT endpoint from which we can update the Subjects
+
+
 import express, { Request, Response } from 'express';
 import { db } from '../database';
 
